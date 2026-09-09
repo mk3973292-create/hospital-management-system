@@ -60,6 +60,7 @@
   border-right: 1px solid #eee;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  text-align: left;
 }
 
 .action-box:hover {
@@ -114,6 +115,10 @@
   border-radius: 4px;
   font-weight: 700;
   text-decoration: none;
+}
+
+.emergency-action-box {
+  width: 100%;
 }
 
 @media (max-width: 900px) {

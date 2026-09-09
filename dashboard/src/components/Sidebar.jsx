@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, UserPlus, FileText, LogOut, Stethoscope } from "lucide-react";
+import { LayoutDashboard, Users, UserPlus, FileText, LogOut, Stethoscope, ClipboardList } from "lucide-react";
 import { Context } from "../Context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -38,6 +38,9 @@ const Sidebar = () => {
         </Link>
         <Link to="/doctors" className={`nav-link ${location.pathname === '/doctors' ? 'active' : ''}`}>
           <Stethoscope size={20} /> Doctors
+        </Link>
+        <Link to="/patients" className={`nav-link ${location.pathname === '/patients' ? 'active' : ''}`}>
+          <ClipboardList size={20} /> Patients
         </Link>
         <Link to="/doctor/addnew" className={`nav-link ${location.pathname === '/doctor/addnew' ? 'active' : ''}`}>
           <Users size={20} /> Add Doctor

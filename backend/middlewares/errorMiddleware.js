@@ -8,7 +8,9 @@ class ErrorHandler extends Error {
 export const errorMiddleware = (err, req, res, next) => {
   err.message = err.message || "Internal Server Error";
   err.statusCode = err.statusCode || 500;
-  console.log("Error caught in middleware:", err);
+  if (err.statusCode >= 500) {
+    console.log("Error caught in middleware:", err);
+  }
 
   if (err.code === 11000) {
     const message = `Duplicate ${Object.keys(err.keyValue)} Entered`;

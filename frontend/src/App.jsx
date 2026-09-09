@@ -7,6 +7,8 @@ import DoctorsList from "./pages/DoctorsList";
 import HealthPackages from "./pages/HealthPackages";
 import Pharmacy from "./pages/Pharmacy";
 import LabReports from "./pages/LabReports";
+import Profile from "./pages/Profile";
+import About from "./pages/About";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import MessageForm from "./components/MessageForm";
@@ -17,7 +19,7 @@ import { useContext, useEffect } from "react";
 import axios from "axios";
 
 function App() {
-  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
+  const { setIsAuthenticated, setUser } = useContext(Context);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -33,7 +35,7 @@ function App() {
       }
     };
     fetchUser();
-  }, [isAuthenticated, setIsAuthenticated, setUser]);
+  }, [setIsAuthenticated, setUser]);
 
   return (
     <Router>
@@ -47,7 +49,9 @@ function App() {
         <Route path="/packages" element={<HealthPackages />} />
         <Route path="/pharmacy" element={<Pharmacy />} />
         <Route path="/reports" element={<LabReports />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/contact" element={<MessageForm />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <Footer />
       <ToastContainer position="top-center" theme="colored" />

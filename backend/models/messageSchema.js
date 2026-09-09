@@ -28,6 +28,15 @@ const messageSchema = new mongoose.Schema({
         required: true,
         minLength: [10, "Message Must Contain At Least 10 Digits!"]
         },
-});
+      reply: {
+        type: String,
+        trim: true,
+        maxLength: [500, "Reply Cannot Exceed 500 Characters!"],
+        default: "",
+      },
+      repliedAt: {
+        type: Date,
+      },
+}, { timestamps: true });
 
 export const Message = mongoose.model("Message",messageSchema);

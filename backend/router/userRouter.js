@@ -7,7 +7,9 @@ import {
     login, 
     logoutAdmin, 
     logoutPatient, 
-    patientRegister 
+    patientRegister,
+    deleteDoctor,
+    updateDoctor
 } from "../controller/userController.js";
 import { isAdminAuthenticated, isPatientAuthenticated } from "../middlewares/auth.js";
 
@@ -22,5 +24,7 @@ router.get("/patient/me", isPatientAuthenticated, getUserDetails);
 router.get("/admin/logout", isAdminAuthenticated, logoutAdmin);
 router.get("/patient/logout", isPatientAuthenticated, logoutPatient);
 router.post("/doctor/addnew", isAdminAuthenticated, addNewDoctor);
+router.delete("/doctor/:id", isAdminAuthenticated, deleteDoctor);
+router.put("/doctor/:id", isAdminAuthenticated, updateDoctor);
 
 export default router;

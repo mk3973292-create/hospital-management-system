@@ -23,6 +23,12 @@ const appointmentSchema = new mongoose.Schema({
         minLength: [10, "Phone Number Must Contain Exact 10 Digits!"],
         maxLength: [10, "Phone Number Must Contain Exact 10 Digits!"],
     },
+    address: {
+        type: String,
+        trim: true,
+        maxLength: [300, "Address Cannot Exceed 300 Characters!"],
+        default: "",
+    },
     nic: {
         type: String,
         required: true,
@@ -62,17 +68,44 @@ const appointmentSchema = new mongoose.Schema({
     },
     doctorId: {
         type: mongoose.Schema.ObjectId,
+        ref: "User",
         required: true,
     },
     patientId: {
         type: mongoose.Schema.ObjectId,
+        ref: "User",
         required: true,
     },
     status: {
         type: String,
         enum: ["Pending", "Accepted", "Rejected"],
         default: "Pending",
+    },
+    fee: {
+        type: Number,
+        default: 500,
+    },
+    patientMessage: {
+        type: String,
+        trim: true,
+        maxLength: [500, "Message Cannot Exceed 500 Characters!"],
+        default: "",
+    },
+    medicalRecord: {
+        type: String,
+        trim: true,
+        maxLength: [1000, "Medical Record Cannot Exceed 1000 Characters!"],
+        default: "",
+    },
+    doctorReply: {
+        type: String,
+        trim: true,
+        maxLength: [500, "Reply Cannot Exceed 500 Characters!"],
+        default: "",
+    },
+    repliedAt: {
+        type: Date,
     }
-});
+}, { timestamps: true });
 
 export const Appointment = mongoose.model("Appointment", appointmentSchema);

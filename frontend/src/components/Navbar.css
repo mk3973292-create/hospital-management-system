@@ -39,10 +39,14 @@
 
 .emergency-badge {
   background-color: #dc2626;
+  color: white;
   padding: 4px 12px;
   border-radius: 4px;
   font-weight: 600;
   animation: pulse 2s infinite;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .top-contact {
@@ -139,4 +143,141 @@
   0% { opacity: 1; }
   50% { opacity: 0.8; }
   100% { opacity: 1; }
+}
+
+.emergency-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: rgba(17, 24, 39, 0.58);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.emergency-modal {
+  width: min(560px, 100%);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+  padding: 24px;
+  color: var(--text-dark);
+}
+
+.emergency-modal-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.emergency-modal-header h2 {
+  font-size: 1.45rem;
+  margin-bottom: 4px;
+}
+
+.emergency-modal-header p,
+.location-preview {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.emergency-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #b91c1c;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.emergency-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.emergency-fields label {
+  color: var(--text-dark);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.emergency-full-field {
+  grid-column: 1 / -1;
+}
+
+.emergency-fields input,
+.emergency-fields textarea {
+  width: 100%;
+  margin-top: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 11px 12px;
+  font: inherit;
+  color: var(--text-dark);
+}
+
+.emergency-fields textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.location-btn,
+.send-ambulance-btn,
+.call-emergency-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 700;
+  min-height: 42px;
+}
+
+.location-btn {
+  width: 100%;
+  margin-top: 16px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.location-preview {
+  margin-top: 10px;
+}
+
+.emergency-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.call-emergency-link {
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  text-decoration: none;
+}
+
+.send-ambulance-btn {
+  background: #dc2626;
+  color: white;
+}
+
+.send-ambulance-btn:disabled,
+.location-btn:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .emergency-fields,
+  .emergency-modal-actions {
+    grid-template-columns: 1fr;
+  }
 }

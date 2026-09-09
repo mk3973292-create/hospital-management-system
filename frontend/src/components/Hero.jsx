@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Hero.css";
+import EmergencyAmbulanceButton from "./EmergencyAmbulanceButton";
 
 const Hero = ({ title }) => {
   return (
@@ -32,11 +33,11 @@ const Hero = ({ title }) => {
             <p>Get medicines delivered to your doorstep</p>
             <span className="action-link">Order Now &rarr;</span>
           </Link>
-          <a href="tel:1755000222" className="action-box highlight-box" style={{ textDecoration: 'none', display: 'block' }}>
+          <EmergencyAmbulanceButton className="action-box highlight-box emergency-action-box" variant="card">
             <h3>Emergency?</h3>
             <p>24/7 Ambulance and Trauma Care</p>
-            <span className="action-btn animate-pulse-soft">Call 175 5000 222</span>
-          </a>
+            <span className="action-btn animate-pulse-soft">Send Ambulance Van</span>
+          </EmergencyAmbulanceButton>
         </div>
       </div>
     </section>

@@ -5,7 +5,8 @@ import { generateToken } from "../utils/jwtToken.js";
 import cloudinary from "cloudinary";
 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
-    const { firstName, lastName, email, phone, password, gender, dob, nic, role } = req.body;
+    const { firstName, lastName, phone, password, gender, dob, nic, role } = req.body;
+    const email = req.body.email?.toLowerCase().trim();
     if (!firstName || !lastName || !email || !phone || !password || !gender || !dob || !nic || !role) {
         return next(new ErrorHandler("Please Fill Full Form!", 400));
     }
@@ -24,13 +25,13 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
 
 export const login = catchAsyncErrors(async (req, res, next) => {
     const { email, password, confirmPassword, role } = req.body;
-    if (!email || !password || !confirmPassword || !role) {
+    if (!email || !password || !role) {
         return next(new ErrorHandler("Please Provide All Details!", 400));
     }
-    if (password !== confirmPassword) {
+    if (confirmPassword && password !== confirmPassword) {
         return next(new ErrorHandler("Password and Confirm Password Do Not Match!", 400));
     }
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email: email.toLowerCase().trim() }).select("+password");
     if (!user) {
         return next(new ErrorHandler("Invalid Password Or Email!", 400));
     }
@@ -131,6 +132,43 @@ export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: "New Doctor Registered!",
+        doctor,
+    });
+});
+
+export const deleteDoctor = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params;
+    let doctor = await User.findById(id);
+    if (!doctor) {
+        return next(new ErrorHandler("Doctor not found!", 404));
+    }
+    if (doctor.role !== "Doctor") {
+        return next(new ErrorHandler("Invalid user role!", 400));
+    }
+    await doctor.deleteOne();
+    res.status(200).json({
+        success: true,
+        message: "Doctor Deleted Successfully!",
+    });
+});
+
+export const updateDoctor = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params;
+    let doctor = await User.findById(id);
+    if (!doctor) {
+        return next(new ErrorHandler("Doctor not found!", 404));
+    }
+    if (doctor.role !== "Doctor") {
+        return next(new ErrorHandler("Invalid user role!", 400));
+    }
+    doctor = await User.findByIdAndUpdate(id, req.body, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+    res.status(200).json({
+        success: true,
+        message: "Doctor Details Updated Successfully!",
         doctor,
     });
 });

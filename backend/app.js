@@ -3,7 +3,6 @@ import { config } from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
-import { dbconnection } from "./database/dbconnection.js";
 import messageRouter from "./router/messageRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 
@@ -36,10 +35,14 @@ app.use(fileUpload({
 );
 import userRouter from "./router/userRouter.js";
 import appointmentRouter from "./router/appointmentRouter.js";
+import ambulanceRouter from "./router/ambulanceRouter.js";
+import packageEnrollmentRouter from "./router/packageEnrollmentRouter.js";
 
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/appointment", appointmentRouter);
+app.use("/api/v1/ambulance", ambulanceRouter);
+app.use("/api/v1/package", packageEnrollmentRouter);
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -47,16 +50,14 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dbconnection();
-
 app.use(express.static(path.resolve(__dirname, "../frontend/dist")));
 app.use("/admin", express.static(path.resolve(__dirname, "../dashboard/dist")));
 
-app.get("/admin/*", (req, res) => {
+app.get(/^\/admin(\/.*)?$/, (req, res) => {
   res.sendFile(path.resolve(__dirname, "../dashboard/dist/index.html"));
 });
 
-app.get("*", (req, res) => {
+app.get(/^\/(.*)/, (req, res) => {
   res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
 });
 

@@ -1,5 +1,6 @@
 import app from"./app.js";
 import Cloudinary from "cloudinary"
+import { dbconnection } from "./database/dbconnection.js";
 
 Cloudinary.v2.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -7,6 +8,15 @@ Cloudinary.v2.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-app.listen(process.env.PORT, () =>{
-    console.log(`server listening on port ${process.env.PORT}`);
+const startServer = async () => {
+    await dbconnection();
+
+    app.listen(process.env.PORT, () =>{
+        console.log(`server listening on port ${process.env.PORT}`);
+    });
+};
+
+startServer().catch((error) => {
+    console.error("Failed to start backend:", error);
+    process.exit(1);
 });

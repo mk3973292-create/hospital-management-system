@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../Context/AppContext";
-import { LogOut, Phone, Search, ChevronDown } from "lucide-react";
+import { Phone, Search } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./Navbar.css"; // We'll create this
+import EmergencyAmbulanceButton from "./EmergencyAmbulanceButton";
 
 const Navbar = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
@@ -43,14 +44,17 @@ const Navbar = () => {
           <div className="top-left">
             <Link to="/packages" className="top-link">Book Health Checkup Packages</Link>
             <Link to="/reports" className="top-link">Access Lab Reports</Link>
-            <a href="tel:1755000222" className="emergency-badge" style={{ textDecoration: 'none' }}>Emergency</a>
+            <EmergencyAmbulanceButton className="emergency-badge">Emergency</EmergencyAmbulanceButton>
           </div>
           <div className="top-right">
             <a href="tel:1755000222" className="top-contact">
               <Phone size={14} /> 175 5000 222
             </a>
             {isAuthenticated ? (
-              <button className="top-link" onClick={handleLogout} style={{background: 'transparent', border:'none', cursor:'pointer', color:'white', fontSize:'13px', fontWeight:'500'}}>Logout</button>
+              <>
+                <Link to="/profile" className="top-link">Patient Profile</Link>
+                <button className="top-link" onClick={handleLogout} style={{background: 'transparent', border:'none', cursor:'pointer', color:'white', fontSize:'13px', fontWeight:'500'}}>Logout</button>
+              </>
             ) : (
               <Link to="/login" className="top-link">Patient Login</Link>
             )}
@@ -61,7 +65,7 @@ const Navbar = () => {
       {/* Main Nav */}
       <nav className="main-nav">
         <div className="container nav-container">
-          <Link to="/" className="nav-logo">
+          <Link to="/about" className="nav-logo" aria-label="ZeeCare Hospitals information">
              <span style={{color: "var(--primary-color)", fontWeight: "800", fontSize: "28px"}}>ZeeCare</span>
              <span style={{color: "var(--text-light)", fontSize: "14px", display: "block", marginTop: "-5px"}}>HOSPITALS</span>
           </Link>

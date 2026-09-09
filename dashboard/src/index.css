@@ -184,6 +184,70 @@ select.status-select {
   background: white;
 }
 
+.table-textarea {
+  width: 100%;
+  min-width: 170px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font: inherit;
+  color: var(--text-main);
+}
+
+.table-action-btn {
+  border: none;
+  background: var(--primary);
+  color: white;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.table-action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ambulance-dispatch-btn {
+  background: var(--danger);
+}
+
+.table-map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ambulance-status-Requested { background: #fff3cd; color: #856404; }
+.ambulance-status-Dispatched { background: #dbeafe; color: #1d4ed8; }
+.ambulance-status-Completed { background: #d4edda; color: #155724; }
+.ambulance-status-Cancelled { background: #f8d7da; color: #721c24; }
+
+.package-payment-success,
+.package-status-badge {
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-top: 6px;
+  padding: 4px 10px;
+}
+
+.package-payment-success {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.package-status-badge {
+  background: #eef2ff;
+  color: var(--primary);
+}
+
 /* Forms */
 .form-card {
   background: var(--surface);

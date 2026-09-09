@@ -7,17 +7,47 @@ const Appointment = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [nic, setNic] = useState("");
   const [dob, setDob] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
-  const [department, setDepartment] = useState("Pediatrics");
+  const [department, setDepartment] = useState("Cardiology");
   const [doctorFirstName, setDoctorFirstName] = useState("");
   const [doctorLastName, setDoctorLastName] = useState("");
+  const [selectedDoctorId, setSelectedDoctorId] = useState("");
   const [hasVisited, setHasVisited] = useState(false);
+  const [patientMessage, setPatientMessage] = useState("");
+  const [medicalRecord, setMedicalRecord] = useState("");
 
-  const departmentsArray = ["Pediatrics", "Orthopedics", "Cardiology", "Neurology", "Oncology", "Radiology", "Physical Therapy", "Dermatology", "ENT"];
+  const departmentsArray = [
+    "Cardiology",
+    "Neurology",
+    "Orthopedics",
+    "Pediatrics",
+    "Gynecology",
+    "Oncology",
+    "Dermatology",
+    "Radiology",
+    "Gastroenterology",
+    "Nephrology",
+    "Physical Therapy",
+    "ENT",
+    "Ophthalmology",
+    "Psychiatry",
+    "Urology",
+    "Pulmonology",
+    "Dentistry",
+    "General Medicine",
+    "General Surgery",
+    "Emergency & Trauma",
+    "ICU/Critical Care",
+    "Diabetology",
+    "Endocrinology",
+    "Anesthesiology",
+    "Pathology",
+  ];
 
   const [doctors, setDoctors] = useState([]);
 
@@ -43,6 +73,7 @@ const Appointment = () => {
           lastName,
           email,
           phone,
+          address,
           nic,
           dob,
           gender,
@@ -50,7 +81,10 @@ const Appointment = () => {
           department,
           doctor_firstName: doctorFirstName,
           doctor_lastName: doctorLastName,
+          doctorId: selectedDoctorId,
           hasVisited,
+          patientMessage: patientMessage.trim(),
+          medicalRecord: medicalRecord.trim(),
         },
         {
           withCredentials: true,
@@ -58,7 +92,7 @@ const Appointment = () => {
         }
       );
       toast.success(data.message);
-      setFirstName(""); setLastName(""); setEmail(""); setPhone(""); setNic(""); setDob(""); setAge(""); setGender(""); setAppointmentDate("");
+      setFirstName(""); setLastName(""); setEmail(""); setPhone(""); setAddress(""); setNic(""); setDob(""); setAge(""); setGender(""); setAppointmentDate(""); setPatientMessage(""); setMedicalRecord(""); setSelectedDoctorId(""); setDoctorFirstName(""); setDoctorLastName("");
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
     }
@@ -80,6 +114,18 @@ const Appointment = () => {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
               <div className="form-group"><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-input" placeholder="Email" /></div>
               <div className="form-group"><input type="number" value={phone} onChange={(e) => setPhone(e.target.value)} className="form-input" placeholder="Phone" /></div>
+            </div>
+
+            <div className="form-group">
+              <textarea
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="form-input"
+                placeholder="Address"
+                rows="3"
+                maxLength="300"
+                style={{ resize: "vertical" }}
+              />
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px" }}>
@@ -111,22 +157,26 @@ const Appointment = () => {
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
               <div className="form-group">
-                <select value={department} onChange={(e) => { setDepartment(e.target.value); setDoctorFirstName(""); setDoctorLastName(""); }} className="form-input">
+                <select value={department} onChange={(e) => { setDepartment(e.target.value); setSelectedDoctorId(""); setDoctorFirstName(""); setDoctorLastName(""); }} className="form-input">
                   {departmentsArray.map((depart, index) => (
                     <option value={depart} key={index}>{depart}</option>
                   ))}
                 </select>
               </div>
               <div className="form-group">
-                <select value={`${doctorFirstName} ${doctorLastName}`} onChange={(e) => {
-                  const [first, last] = e.target.value.split(" ");
-                  setDoctorFirstName(first);
-                  setDoctorLastName(last);
+                <select value={selectedDoctorId} onChange={(e) => {
+                  const selectedDoctor = doctors.find((doctor) => doctor._id === e.target.value);
+                  setSelectedDoctorId(e.target.value);
+                  setDoctorFirstName(selectedDoctor?.firstName || "");
+                  setDoctorLastName(selectedDoctor?.lastName || "");
+                  if (selectedDoctor?.doctorDepartment) {
+                    setDepartment(selectedDoctor.doctorDepartment);
+                  }
                 }} className="form-input">
                   <option value="">Select Doctor</option>
-                  {doctors.filter((doctor) => doctor.doctorDepartment === department).map((doctor, index) => (
-                    <option value={`${doctor.firstName} ${doctor.lastName}`} key={index}>
-                      {doctor.firstName} {doctor.lastName}
+                  {doctors.map((doctor) => (
+                    <option value={doctor._id} key={doctor._id}>
+                      Dr. {doctor.firstName} {doctor.lastName} - {doctor.doctorDepartment || "Department not added"}
                     </option>
                   ))}
                 </select>
@@ -136,6 +186,30 @@ const Appointment = () => {
             <div className="form-group" style={{ display: "flex", gap: "10px", alignItems: "center", marginTop: "10px" }}>
               <p style={{ fontWeight: "500" }}>Have you visited before?</p>
               <input type="checkbox" checked={hasVisited} onChange={(e) => setHasVisited(e.target.checked)} style={{ width: "20px", height: "20px" }} />
+            </div>
+
+            <div className="form-group" style={{ marginTop: "20px" }}>
+              <textarea
+                value={patientMessage}
+                onChange={(e) => setPatientMessage(e.target.value)}
+                className="form-input"
+                placeholder="Message for doctor (optional)"
+                rows="4"
+                maxLength="500"
+                style={{ resize: "vertical" }}
+              />
+            </div>
+
+            <div className="form-group" style={{ marginTop: "20px" }}>
+              <textarea
+                value={medicalRecord}
+                onChange={(e) => setMedicalRecord(e.target.value)}
+                className="form-input"
+                placeholder="Medical record, history, allergies, or current medicines (optional)"
+                rows="4"
+                maxLength="1000"
+                style={{ resize: "vertical" }}
+              />
             </div>
 
             <button type="submit" className="btn btn-primary" style={{ width: "100%", padding: "14px", marginTop: "24px" }}>Schedule Appointment</button>

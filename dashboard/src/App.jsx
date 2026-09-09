@@ -6,6 +6,7 @@ import AddNewDoctor from "./pages/AddNewDoctor";
 import AddNewAdmin from "./pages/AddNewAdmin";
 import Messages from "./pages/Messages";
 import Doctors from "./pages/Doctors";
+import Patients from "./pages/Patients";
 import Sidebar from "./components/Sidebar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +30,7 @@ function App() {
       }
     };
     fetchAdmin();
-  }, [isAuthenticated]);
+  }, [setIsAuthenticated, setAdmin]);
 
   return (
     <Router basename="/admin">
@@ -43,6 +44,7 @@ function App() {
             <Route path="/admin/addnew" element={<AddNewAdmin />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/doctors" element={<Doctors />} />
+            <Route path="/patients" element={<Patients />} />
           </Routes>
         </main>
       </div>

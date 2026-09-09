@@ -19,6 +19,8 @@
   border: 1px solid var(--border-color);
   cursor: pointer;
   overflow: hidden;
+  width: 100%;
+  font: inherit;
 }
 
 .dept-card::before {
@@ -32,12 +34,14 @@
   transform-origin: left;
 }
 
-.dept-card:hover {
+.dept-card:hover,
+.dept-card.active {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.08);
 }
 
-.dept-card:hover::before {
+.dept-card:hover::before,
+.dept-card.active::before {
   transform: scaleX(1);
 }
 
@@ -47,6 +51,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.dept-icon-circle {
+  align-items: center;
+  background: rgba(0, 119, 182, 0.1);
+  border-radius: 50%;
+  color: var(--primary-color);
+  display: flex;
+  font-size: 1.2rem;
+  font-weight: 700;
+  height: 56px;
+  justify-content: center;
+  width: 56px;
 }
 
 .dept-name {
@@ -65,7 +82,63 @@
   transition: all 0.3s ease;
 }
 
-.dept-card:hover .dept-link-arrow {
+.dept-card:hover .dept-link-arrow,
+.dept-card.active .dept-link-arrow {
   opacity: 1;
   transform: translateX(0);
+}
+
+.dept-detail-panel {
+  align-items: flex-start;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
+  margin-top: 28px;
+  padding: 28px;
+}
+
+.dept-detail-label {
+  color: var(--primary-color);
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.dept-detail-panel h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.dept-detail-panel p {
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+.dept-doctors h4 {
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+.dept-doctor-row {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-dark);
+  font-weight: 600;
+  margin-bottom: 10px;
+  padding: 12px 14px;
+}
+
+@media (max-width: 760px) {
+  .dept-detail-panel {
+    grid-template-columns: 1fr;
+  }
 }
