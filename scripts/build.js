@@ -18,6 +18,7 @@ const distDir = path.join(rootDir, 'dist');
 const frontendDist = path.join(rootDir, 'frontend', 'dist');
 const dashboardDist = path.join(rootDir, 'dashboard', 'dist');
 const adminDist = path.join(distDir, 'admin');
+const apiDist = path.join(distDir, 'api');
 
 if (fs.existsSync(distDir)) {
   fs.rmSync(distDir, { recursive: true, force: true });
@@ -29,4 +30,36 @@ fs.cpSync(frontendDist, distDir, { recursive: true });
 fs.mkdirSync(adminDist, { recursive: true });
 fs.cpSync(dashboardDist, adminDist, { recursive: true });
 
-console.log('\n✓ Build successful! Frontend and Admin Dashboard assembled into /dist.');
+fs.mkdirSync(apiDist, { recursive: true });
+
+// Create dist/api/index.js
+const distApiHandler = `import app from "../../backend/app.js";
+import { dbconnection } from "../../backend/database/dbconnection.js";
+
+export default async function handler(req, res) {
+  try {
+    await dbconnection();
+  } catch (error) {
+    console.error("Database connection failure in serverless API:", error);
+  }
+  return app(req, res);
+}
+`;
+fs.writeFileSync(path.join(apiDist, 'index.js'), distApiHandler);
+
+// Create dist/index.js for Vercel Node Builder Entrypoint scanner
+const distIndexHandler = `import app from "../backend/app.js";
+import { dbconnection } from "../backend/database/dbconnection.js";
+
+export default async function handler(req, res) {
+  try {
+    await dbconnection();
+  } catch (error) {
+    console.error("Database connection failure in serverless API:", error);
+  }
+  return app(req, res);
+}
+`;
+fs.writeFileSync(path.join(distDir, 'index.js'), distIndexHandler);
+
+console.log('\n✓ Build successful! Frontend, Admin Dashboard, and Serverless API entrypoints assembled into /dist.');
