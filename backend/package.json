@@ -20,7 +20,6 @@
     "express": "^5.2.1",
     "express-fileupload": "^1.5.2",
     "jsonwebtoken": "^9.0.3",
-    "mongodb-memory-server": "^11.0.1",
     "mongoose": "^9.4.1",
     "validator": "^13.15.35"
   },
