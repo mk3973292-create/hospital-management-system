@@ -32,8 +32,10 @@ function App() {
     fetchAdmin();
   }, [setIsAuthenticated, setAdmin]);
 
+  const basename = window.location.pathname.startsWith('/admin') ? '/admin' : '/';
+
   return (
-    <Router basename="/admin">
+    <Router basename={basename}>
       <div className={isAuthenticated ? "admin-layout" : ""}>
         <Sidebar />
         <main className={isAuthenticated ? "main-wrapper" : ""}>
