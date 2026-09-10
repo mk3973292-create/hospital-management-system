@@ -13,6 +13,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { Context } from "./Context/AppContext";
 import axios from "axios";
 
+if (import.meta.env.VITE_SERVER_URL) {
+  axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
+}
+
 function App() {
   const { isAuthenticated, setIsAuthenticated, setAdmin } = useContext(Context);
 

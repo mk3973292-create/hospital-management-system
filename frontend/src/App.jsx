@@ -18,6 +18,10 @@ import { Context } from "./Context/AppContext";
 import { useContext, useEffect } from "react";
 import axios from "axios";
 
+if (import.meta.env.VITE_SERVER_URL) {
+  axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
+}
+
 function App() {
   const { setIsAuthenticated, setUser } = useContext(Context);
 
