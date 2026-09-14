@@ -12,8 +12,14 @@ import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// Resolve __dirname for ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env from project root (one level above backend/)
+config({ path: path.resolve(__dirname, "../.env") });
+
 const app = express();
-config({ path: "./config/config.env" });
 
 app.use(
     cors({
@@ -55,10 +61,8 @@ app.use("/api/v1/appointment", appointmentRouter);
 app.use("/api/v1/ambulance", ambulanceRouter);
 app.use("/api/v1/package", packageEnrollmentRouter);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-if (process.env.NODE_ENV !== "production") {
+// Serve built React apps in production
+if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.resolve(__dirname, "../frontend/dist")));
     app.use("/admin", express.static(path.resolve(__dirname, "../dashboard/dist")));
 
