@@ -8,10 +8,10 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
 console.log('--- Step 1: Building Frontend ---');
-execSync('npm install --prefix frontend && npm run build --prefix frontend', { stdio: 'inherit', cwd: rootDir });
+execSync('npm run build -w frontend', { stdio: 'inherit', cwd: rootDir });
 
 console.log('\n--- Step 2: Building Admin Dashboard ---');
-execSync('npm install --prefix dashboard && npm run build --prefix dashboard -- --base=/admin/', { stdio: 'inherit', cwd: rootDir });
+execSync('npm run build -w dashboard -- --base=/admin/', { stdio: 'inherit', cwd: rootDir });
 
 console.log('\n--- Step 3: Assembling Unified Output Directory ---');
 const distDir = path.join(rootDir, 'dist');
